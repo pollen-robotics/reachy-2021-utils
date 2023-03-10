@@ -11,18 +11,18 @@ import sys
 def get_serial_number(port):
     """Get serial number for a gate on a given port."""
     pipe1 = run(
-        [f'udevadm info -a -p $(udevadm info -q path -n /{port})'],
+        [f"udevadm info -a -p $(udevadm info -q path -n /{port})"],
         stdout=PIPE,
         shell=True,
     )
     pipe2 = run(
-        ['grep ATTRS{serial}'],
+        ["grep ATTRS{serial}"],
         input=pipe1.stdout,
         stdout=PIPE,
         shell=True,
     )
     out = pipe2.stdout.decode().split()
-    serial_number = out[0].split('=')[-1]
+    serial_number = out[0].split("=")[-1]
     return serial_number
 
 
@@ -41,30 +41,32 @@ def write_udev_rules():
     and write it in the local udev file /etc/udev/rules.d/10-reachy-local.rules.
     If previous rules were written for the gates, they are deleted.
     """
-    with open('/etc/udev/rules.d/10-reachy-local.rules', 'r') as f:
+    with open("/etc/udev/rules.d/10-reachy-local.rules", "r") as f:
         contents = f.readlines()
 
-    port = glob.glob('/dev/ttyACM*')
+    port = glob.glob("/dev/ttyACM*")
 
     if port == []:
-        print('No usb2ax detected, make sure that one is connected.')
+        print("No usb2ax detected, make sure that one is connected.")
         return
 
     if len(port) != 1:
-        print('Multiple usb2ax detected, make sure that only one is connected.')
+        print("Multiple usb2ax detected, make sure that only one is connected.")
         return
 
     robot_part = sys.argv[1]
-    if robot_part not in ['left_arm', 'right_arm', 'head']:
-        print("Robot part should be in ['left_arm', 'right_arm', 'head'], got {robot_part}.")
+    if robot_part not in ["left_arm", "right_arm", "head"]:
+        print(
+            "Robot part should be in ['left_arm', 'right_arm', 'head'], got {robot_part}."
+        )
         return
 
-    with open('/etc/udev/rules.d/10-reachy-local.rules', 'w') as fa:
+    with open("/etc/udev/rules.d/10-reachy-local.rules", "w") as fa:
         rule = get_rule_msg(port, robot_part)
         fa.writelines(contents + [rule])
         fa.close()
-        print(f'Wrote udev rule for {robot_part}!')
+        print(f"Wrote udev rule for {robot_part}!")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     write_udev_rules()

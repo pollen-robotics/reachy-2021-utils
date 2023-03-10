@@ -3,7 +3,7 @@ import yaml
 import os
 
 
-config_file = os.path.expanduser('~/.reachy.yaml')
+config_file = os.path.expanduser("~/.reachy.yaml")
 
 
 def get_reachy_config():
@@ -17,10 +17,10 @@ def _get_config_parameter(parameter: str, part=None):
     try:
         return config[parameter]
     except KeyError:
-        print(f'{parameter} not found in {config_file}')
+        print(f"{parameter} not found in {config_file}")
 
 
-get_reachy_generation = partial(_get_config_parameter, 'generation')
-get_reachy_model = partial(_get_config_parameter, 'model')
-get_zuuu_version = partial(_get_config_parameter, 'zuuu_version')
-get_neck_orbita_zero = partial(_get_config_parameter, 'neck_orbita_zero')
+get_reachy_generation = partial(_get_config_parameter, "generation")
+get_reachy_model = partial(_get_config_parameter, "model")
+get_zuuu_version = partial(_get_config_parameter, "zuuu_version")
+get_neck_orbita_zero = partial(_get_config_parameter, "neck_orbita_zero")
