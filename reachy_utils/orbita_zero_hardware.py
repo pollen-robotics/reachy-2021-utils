@@ -16,6 +16,7 @@ PRESENT_POSITION_ADDR = 71
 
 def get_orbita_current_position(serial_port: str, id: int, reduction: float) -> Tuple[float, float, float]:
     """Connect and read the current orbita disks position."""
+    print(f'Connecting on "{serial_port}" (id={id}, reduction={reduction})')
     with closing(DxlIO(serial_port)) as dxl_io:
         read_disk_pos_packet = DxlReadDataPacket(id, PRESENT_POSITION_ADDR, struct.calcsize('fff'))
         resp = dxl_io._send_packet(read_disk_pos_packet)
@@ -32,10 +33,10 @@ def update_config_with_zero(config_file: str, orbita_name: str, zero: Dict[str, 
     config_file = os.path.expanduser(config_file)
     if os.path.exists(config_file):
         with open(config_file) as f:
-            print(f'Found existing config in {config_file}...')
+            print(f'Found existing config in "{config_file}"...')
 
             backup_file = f'{config_file}.bkp'
-            print(f'Making a backup in {backup_file}')
+            print(f'Making a backup in "{backup_file}"...')
             shutil.copy(config_file, backup_file)
 
             config = yaml.load(f, Loader=yaml.Loader)
@@ -43,7 +44,7 @@ def update_config_with_zero(config_file: str, orbita_name: str, zero: Dict[str, 
         print('No config found, create one.')
         config = {}
 
-    print('Updating config with zero...')
+    print(f'Updating config with zero for orbita "{orbita_name}"...')
     config[f'{orbita_name}_orbita_zero'] = {}
     config[f'{orbita_name}_orbita_zero']['top'] = zero['top']
     config[f'{orbita_name}_orbita_zero']['middle'] = zero['middle']
