@@ -8,7 +8,8 @@ from typing import Dict
 motor_ids_per_part = {
     "right_arm": [10, 11, 12, 13, 14, 15, 16, 17],
     "left_arm": [20, 21, 22, 23, 24, 25, 26, 27],
-    "head": [40, 31, 32],
+    "head": [31, 32],
+    "orbita_neck": [40],
 }
 
 robot_config_to_parts = {
@@ -36,7 +37,7 @@ motor_id_to_name = {
     27: "l_gripper",
     30: "r_antenna",
     31: "l_antenna",
-    40: "neck_orbita",
+    40: "orbita_neck",
 }
 
 
@@ -73,10 +74,10 @@ def get_missing_motors_head(missing_motors: Dict):
 
     dxl320_io.close()
 
-    dxl_io = DxlIO(port="/dev/usb2ax_head")
-    scan_orbita = dxl_io.scan([40])
+    dxl_io = DxlIO(port="/dev/orbita_neck")
+    scan_orbita = dxl_io.scan([70])
     if scan_orbita == []:
-        missing_motors[40] = "orbita"
+        missing_motors[70] = "orbita_neck"
 
     return missing_motors
 
