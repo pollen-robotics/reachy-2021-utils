@@ -23,6 +23,11 @@ setup(
     extras_require={
         "doc": ["sphinx"],
     },
+    entry_points={
+        "console_scripts": [
+            "orbita-zero-hardware = reachy_utils.orbita_zero_hardware:main",
+        ],
+    },
     author="Pollen Robotics",
     author_email="contact@pollen-robotics.com",
     url="https://github.com/pollen-robotics/reachy-utils",
