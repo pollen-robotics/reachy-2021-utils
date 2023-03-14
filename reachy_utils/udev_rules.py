@@ -151,7 +151,7 @@ def write_udev_rules_cameras():
     with open("/etc/udev/rules.d/10-reachy-local.rules", "r") as f:
         contents = f.readlines()
 
-    ports = glob.glob("/dev/ttyACM*")
+    ports = glob.glob("/dev/video*")
 
     if ports == [0]:
         print('No cameras detected.')
