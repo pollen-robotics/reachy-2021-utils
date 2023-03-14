@@ -135,7 +135,7 @@ def write_udev_rules_usb2ax(robot_part):
         print(f"Wrote udev rule for {robot_part}!")
 
 
-def write_udev_rules_cameras(robot_part):
+def write_udev_rules_cameras():
     """Write udev rules for Reachy's cameras.
 
     Each Reachy's camera opens four video ports on /dev/video*.
@@ -166,4 +166,5 @@ def write_udev_rules_cameras(robot_part):
         rules = _get_rule_msg_cameras(camera_ports)
         fa.writelines(contents + [rules])
         fa.close()
-        print(f"Wrote udev rule for {robot_part}!")
+        print('Wrote udev rules for cameras!')
+
