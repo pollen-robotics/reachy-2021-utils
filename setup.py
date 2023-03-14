@@ -24,8 +24,8 @@ setup(
         "doc": ["sphinx"],
     },
     entry_points={
-        'console_scripts': [
-            'orbita-zero-hardware = reachy_utils.orbita_zero_hardware:main',
+        "console_scripts": [
+            "orbita-zero-hardware = reachy_utils.orbita_zero_hardware:main",
         ],
     },
     author="Pollen Robotics",
