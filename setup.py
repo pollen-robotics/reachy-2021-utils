@@ -26,6 +26,7 @@ setup(
     entry_points={
         "console_scripts": [
             "orbita-zero-hardware = reachy_utils.orbita_zero_hardware:main",
+            "reachy-discovery = reachy_utils.discovery:scan",
         ],
     },
     author="Pollen Robotics",
