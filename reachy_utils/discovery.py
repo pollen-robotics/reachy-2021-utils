@@ -48,12 +48,16 @@ def get_missing_motors_arm(arm: str, missing_motors: Dict):
         print(
             f"Port /dev/usb2ax_{arm} not found. Make sure that the udev rules is set and the usb2ax board plugged."
         )
-        return
+        for motor_id in motor_ids_per_part[arm]:
+            missing_motors[motor_id] = motor_id_to_name[motor_id]
+        return missing_motors
 
     scan = dxl_io.scan(range(40))
     for motor_id in motor_ids_per_part[arm]:
         if motor_id not in scan:
             missing_motors[motor_id] = motor_id_to_name[motor_id]
+
+    dxl_io.close()
 
     return missing_motors
 
@@ -65,7 +69,9 @@ def get_missing_motors_head(missing_motors: Dict):
         print(
             "Port /dev/usb2ax_head not found. Make sure that the udev rules is set and the usb2ax board plugged."
         )
-        return
+        for motor_id in [30, 31]:
+            missing_motors[motor_id] = motor_id_to_name[motor_id]
+        return missing_motors
 
     scan_antennas = dxl320_io.scan([30, 31])
     for motor_id in [30, 31]:
@@ -74,13 +80,16 @@ def get_missing_motors_head(missing_motors: Dict):
 
     dxl320_io.close()
 
+
+def check_if_orbita_missing(missing_motors: Dict):
     try:
         dxl_io = DxlIO(port="/dev/orbita_neck")
     except SerialException:
         print(
             "Port /dev/orbita_neck not found. Make sure that the udev rules is set and orbita plugged."
         )
-        return
+        missing_motors[70] = "orbita_neck"
+        return missing_motors
 
     scan_orbita = dxl_io.scan([70])
     if scan_orbita == []:
@@ -98,6 +107,7 @@ def get_missing_motors_reachy(reachy_model: str):
 
         elif "head" in part:
             missing_motors = get_missing_motors_head(missing_motors)
+            missing_motors = check_if_orbita_missing(missing_motors)
 
     return missing_motors
 
