@@ -84,7 +84,8 @@ def _get_camera_ports():
 def _get_rule_msg_usb2ax(port, robot_part):
     """Build a udev rule given a gate serial number."""
     serial_number = _get_serial_number(port[0])
-    rule = f"# Rules for the {robot_part} usb2ax board \n"
+    rule = "\n"
+    rule += f"# Rules for the {robot_part} usb2ax board \n"
     rule += 'KERNEL=="ttyACM[0-9]", ATTRS{idVendor}=="16d0", ATTRS{product}=="USB2AX", '
     rule += f'ATTRS{{serial}}=={serial_number}, MODE="666", SYMLINK+="usb2ax_{robot_part}"\n'
     return rule
@@ -93,7 +94,8 @@ def _get_rule_msg_usb2ax(port, robot_part):
 def _get_rule_msg_cameras(ports):
     """Build a udev rule for both cameras, assuming the first port is for the right camera."""
     serial_number_right = _get_serial_number(ports[0])
-    rule = "# Rules for the Kurokesu cameras \n"
+    rule = "\n"
+    rule += "# Rules for the Kurokesu cameras \n"
     rule += f'KERNEL=="video[0-9]", ATTR{{index}}=="0", ATTRS{{serial}}=={serial_number_right}, SYMLINK+="right_camera"\n'
     serial_number_left = _get_serial_number(ports[1])
     rule += f'KERNEL=="video[0-9]", ATTR{{index}}=="0", ATTRS{{serial}}=={serial_number_left}, SYMLINK+="left_camera"\n'
