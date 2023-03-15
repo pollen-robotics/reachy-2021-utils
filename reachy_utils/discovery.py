@@ -74,7 +74,14 @@ def get_missing_motors_head(missing_motors: Dict):
 
     dxl320_io.close()
 
-    dxl_io = DxlIO(port="/dev/orbita_neck")
+    try:
+        dxl_io = DxlIO(port="/dev/orbita_neck")
+    except SerialException:
+        print(
+            "Port /dev/orbita_neck not found. Make sure that the udev rules is set and orbita plugged."
+        )
+        return
+
     scan_orbita = dxl_io.scan([70])
     if scan_orbita == []:
         missing_motors[70] = "orbita_neck"
