@@ -18,6 +18,7 @@ def _get_config_parameter(parameter: str, part=None):
         return config[parameter]
     except KeyError:
         print(f"{parameter} not found in {config_file}")
+        return -1
 
 
 get_reachy_generation = partial(_get_config_parameter, "generation")
