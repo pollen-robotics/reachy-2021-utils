@@ -95,7 +95,8 @@ def check_if_orbita_missing(missing_motors: Dict):
     return missing_motors
 
 
-def get_missing_motors_reachy(reachy_model: str):
+def get_missing_motors_reachy():
+    reachy_model = get_reachy_model()
     missing_motors = {}
 
     for part in robot_config_to_parts[reachy_model]:
@@ -126,7 +127,7 @@ def scan():
             ["systemctl --user stop reachy_sdk_server.service"], stdout=PIPE, shell=True
         )
 
-    missing_motors = get_missing_motors_reachy(reachy_model)
+    missing_motors = get_missing_motors_reachy()
 
     if missing_motors == {}:
         print(f"Found all motors for Reachy {reachy_model}!")
