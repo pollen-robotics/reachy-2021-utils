@@ -8,7 +8,7 @@ from typing import Dict
 motor_ids_per_part = {
     "right_arm": [10, 11, 12, 13, 14, 15, 16, 17],
     "left_arm": [20, 21, 22, 23, 24, 25, 26, 27],
-    "head": [31, 32],
+    "head": [30, 31],
     "orbita_neck": [40],
 }
 
@@ -48,16 +48,15 @@ def get_missing_motors_arm(arm: str, missing_motors: Dict):
         print(
             f"Port /dev/usb2ax_{arm} not found. Make sure that the udev rules is set and the usb2ax board plugged."
         )
-        for motor_id in motor_ids_per_part[arm]:
-            missing_motors[motor_id] = motor_id_to_name[motor_id]
+        missing = [motor_id_to_name[motor_id] for motor_id in motor_ids_per_part[arm]]
+        missing_motors[arm] = missing
         return missing_motors
 
     scan = dxl_io.scan(range(40))
-    for motor_id in motor_ids_per_part[arm]:
-        if motor_id not in scan:
-            missing_motors[motor_id] = motor_id_to_name[motor_id]
-
     dxl_io.close()
+
+    missing = [motor_id_to_name[motor_id] for motor_id in motor_ids_per_part[arm] if motor_id not in scan]
+    missing_motors[arm] = missing
 
     return missing_motors
 
@@ -69,16 +68,14 @@ def get_missing_motors_head(missing_motors: Dict):
         print(
             "Port /dev/usb2ax_head not found. Make sure that the udev rules is set and the usb2ax board plugged."
         )
-        for motor_id in [30, 31]:
-            missing_motors[motor_id] = motor_id_to_name[motor_id]
+        missing_motors["head"] = [motor_id_to_name[motor_id] for motor_id in motor_ids_per_part["head"]]
         return missing_motors
 
-    scan_antennas = dxl320_io.scan([30, 31])
-    for motor_id in [30, 31]:
-        if motor_id not in scan_antennas:
-            missing_motors[motor_id] = motor_id_to_name[motor_id]
-
+    scan = dxl320_io.scan([30, 31])
     dxl320_io.close()
+
+    missing_motors["head"] = [motor_id_to_name[motor_id] for motor_id in motor_ids_per_part["head"] if motor_id not in scan]
+    return missing_motors
 
 
 def check_if_orbita_missing(missing_motors: Dict):
@@ -88,12 +85,12 @@ def check_if_orbita_missing(missing_motors: Dict):
         print(
             "Port /dev/orbita_neck not found. Make sure that the udev rules is set and orbita plugged."
         )
-        missing_motors[70] = "orbita_neck"
+        missing_motors["head"] += ["orbita_neck"]
         return missing_motors
 
-    scan_orbita = dxl_io.scan([70])
-    if scan_orbita == []:
-        missing_motors[70] = "orbita_neck"
+    scan = dxl_io.scan([70])
+    if scan == []:
+        missing_motors["head"] += ["orbita_neck"]
 
     return missing_motors
 
