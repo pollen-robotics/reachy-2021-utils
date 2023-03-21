@@ -6,13 +6,6 @@ import os
 config_file = os.path.expanduser("~/.reachy.yaml")
 
 
-config_to_parts = {
-    'full_kit': ['left_arm', 'right_arm', 'head'],
-    'starter_kit_left': ['left_arm', 'head'],
-    'starter_kit_right': ['right_arm', 'head'],
-}
-
-
 def get_reachy_config():
     with open(config_file) as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
