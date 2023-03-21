@@ -93,3 +93,15 @@ def write_udev_rules_usb2ax(robot_part):
         fa.writelines(contents + [rule])
         fa.close()
         print(f"Wrote udev rule for {robot_part}!")
+
+
+def write_udev_rules_right_arm():
+    write_udev_rules_usb2ax('right_arm')
+
+
+def write_udev_rules_left_arm():
+    write_udev_rules_usb2ax('left_arm')
+
+
+def write_udev_rule_head():
+    write_udev_rules_usb2ax('head')
