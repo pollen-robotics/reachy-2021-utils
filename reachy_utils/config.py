@@ -7,9 +7,13 @@ config_file = os.path.expanduser("~/.reachy.yaml")
 
 
 def get_reachy_config():
-    with open(config_file) as f:
-        config = yaml.load(f, Loader=yaml.FullLoader)
-        return config
+    try:
+        with open(config_file) as f:
+            config = yaml.load(f, Loader=yaml.FullLoader)
+            return config
+    except FileNotFoundError:
+        print(f"Config file {config_file} not found.")
+        exit(-1)
 
 
 def _get_config_parameter(parameter: str, part=None):
