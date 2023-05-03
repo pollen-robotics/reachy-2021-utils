@@ -27,6 +27,5 @@ def _get_config_parameter(parameter: str, part=None):
 
 get_reachy_generation = partial(_get_config_parameter, "generation")
 get_reachy_model = partial(_get_config_parameter, "model")
-get_zuuu_version = partial(_get_config_parameter, "zuuu_version")
-get_neck_orbita_zero = partial(_get_config_parameter, "neck_orbita_zero")
+get_zuuu_version = partial(_get_config_parameter, "zuuu_model")
 get_camera_parameters = partial(_get_config_parameter, "camera_parameters")

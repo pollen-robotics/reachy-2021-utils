@@ -18,7 +18,6 @@ setup(
     packages=find_packages(exclude=["tests"]),
     install_requires=[
         "PyYAML",
-        "pypot",
         "reachy-sdk",
     ],
     extras_require={
@@ -26,18 +25,12 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "orbita-zero-hardware = reachy_utils.orbita_zero_hardware:main",
-            "reachy-discovery = reachy_utils.discovery:scan",
-            "reachy-udev-rule-right-arm = reachy_utils.udev_rules:write_udev_rules_right_arm",
-            "reachy-udev-rule-left-arm = reachy_utils.udev_rules:write_udev_rules_left_arm",
-            "reachy-udev-rule-head = reachy_utils.udev_rules:write_udev_rules_head",
-            "reachy-identify-zuuu-model = reachy_utils.config:get_zuuu_version",
         ],
     },
     author="Pollen Robotics",
     author_email="contact@pollen-robotics.com",
     url="https://github.com/pollen-robotics/reachy-utils",
-    description=".",
+    description="Useful tools for Reachy 2021",
     long_description=long_description,
     long_description_content_type="text/markdown",
 )

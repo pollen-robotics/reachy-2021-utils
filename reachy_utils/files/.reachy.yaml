@@ -1,10 +1,6 @@
-generation: 2023
+generation: 2021
 model: full_kit
-zuuu_version: 1.2
-neck_orbita_zero:
-    top: 0.0
-    middle: 0.0
-    bottom: 0.0
+zuuu_version: 1.1
 camera_parameters:
     left:
         fx: 0.0
